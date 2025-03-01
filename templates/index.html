@@ -20,6 +20,26 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'icomoon/icomoon.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+	<style>
+		.col-book{
+			position: relative;
+			display: flex;
+			align-items: center;
+			justify-content: space-evenly;
+		}
+		.nav-arrow {
+			font-size: 24px;
+			/* color: #333; */
+			text-decoration: none;
+			padding: 10px;
+			background-color: rgba(247, 242, 242, 0.7);
+			border-radius: 10px;
+			transition: background-color 0.3s ease;
+		}
+		.nav-arrow:hover {
+			background-color: rgba(255, 255, 255, 0.9);
+		}
+	</style>
 
 </head>
 
@@ -136,14 +156,16 @@
 
 		<div class="container">
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-book">
 					{% if page_obj %}
 						{% for book in page_obj %}	
-				
-							<button class="prev slick-arrow">
-								<i class="icon icon-arrow-left"></i>
-							</button>
-						
+
+							{% if page_obj.has_previous %}
+								<a href="?page={{ page_obj.previous_page_number }}" class="nav-arrow nav-prev">
+									<i class="icon icon-arrow-left"></i>
+								</a>
+                            {% endif %}
+							
 							<div class="main-slider pattern-overlay">
 								<div class="slider-item">
 									<div class="banner-content">
@@ -158,18 +180,15 @@
 								</div><!--slider-item-->
 							</div><!--slider-->
 				
-							<button class="next slick-arrow">
-								<i class="icon icon-arrow-right"></i>
-							</button>
+							{% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}" class="nav-arrow nav-next">
+                                <i class="icon icon-arrow-right"></i>
+                            </a>
+                        {% endif %}
 					
 						{% endfor %}
 					{% endif %}	
 				</div>
-				
-				<div style="display: flex; justify-content: center;" class="box">
-					{% include 'pagination.html' with page=page_obj %}
-				</div> 
-
 			</div>
 		</div>
 
@@ -211,7 +230,7 @@
 							<div class="col-md-3">
 								<div class="product-item">
 									<figure class="product-style">
-										<img src="images/product-item1.jpg" alt="Books" class="product-item">
+										<img src="{% static 'images/product-image1.jpg' %}" alt="Books" class="product-item">
 										<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
 											Cart</button>
 									</figure>
@@ -223,55 +242,8 @@
 								</div>
 							</div>
 
-							<div class="col-md-3">
-								<div class="product-item">
-									<figure class="product-style">
-										<img src="images/product-item2.jpg" alt="Books" class="product-item">
-										<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-											Cart</button>
-									</figure>
-									<figcaption>
-										<h3>Great travel at desert</h3>
-										<span>Sanchit Howdy</span>
-										<div class="item-price">$ 38.00</div>
-									</figcaption>
-								</div>
-							</div>
-
-							<div class="col-md-3">
-								<div class="product-item">
-									<figure class="product-style">
-										<img src="images/product-item3.jpg" alt="Books" class="product-item">
-										<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-											Cart</button>
-									</figure>
-									<figcaption>
-										<h3>The lady beauty Scarlett</h3>
-										<span>Arthur Doyle</span>
-										<div class="item-price">$ 45.00</div>
-									</figcaption>
-								</div>
-							</div>
-
-							<div class="col-md-3">
-								<div class="product-item">
-									<figure class="product-style">
-										<img src="images/product-item4.jpg" alt="Books" class="product-item">
-										<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-											Cart</button>
-									</figure>
-									<figcaption>
-										<h3>Once upon a time</h3>
-										<span>Klien Marry</span>
-										<div class="item-price">$ 35.00</div>
-									</figcaption>
-								</div>
-							</div>
-
 						</div><!--ft-books-slider-->
 					</div><!--grid-->
-
-
 				</div><!--inner-content-->
 			</div>
 
