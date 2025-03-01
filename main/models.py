@@ -16,9 +16,9 @@ class Books(models.Model):
     title = models.CharField(max_length=100, verbose_name='Kitob nomi')
     author = models.CharField(max_length=100, verbose_name='Muallif')
     genre = models.ForeignKey(Categorys, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Janri')
-    price = models.PositiveIntegerField(verbose_name='Narxi')
+    price = models.DecimalField(verbose_name='Narxi', max_digits=10, decimal_places=2)
     description = models.TextField(verbose_name='Tavsif')
-    image = models.ImageField(upload_to='media/images/', verbose_name='Rasm', null=True, blank=True)
+    image = models.ImageField(upload_to='images/', verbose_name='Rasm', null=True, blank=True)
 
     class Meta:
         verbose_name = 'Kitob'

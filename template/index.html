@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+	<title>BookSaw - Free Book Store HTML CSS Template</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="author" content="">
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+	<link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'icomoon/icomoon.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#header" tabindex="0">
+
+	<!-- Header Section -->
+	<div id="header-wrap">
+		<!-- Include header.html -->
+		<div id="header-content">{% include 'header.html' %}</div>
+	</div><!--header-wrap-->
+
+	<!-- Billboard/Slider Section -->
+	<div id="billboard-content">{% include 'billboard.html' %}</div>
+
+	<!-- Client Holder Section -->
+	<div id="client-holder-content">{% include 'client-holder.html' %}</div>
+
+	<!-- Featured Books Section -->
+	<div id="featured-books-content">{% include 'featured-books.html' %}</div>
+
+	<!-- Best Selling Section -->
+	<div id="best-selling-content">{% include 'best-selling.html' %}</div>
+
+	<!-- Popular Books Section -->
+	<div id="popular-books-content">{% include 'popular-books.html' %}</div>
+
+	<!-- Quotation Section -->
+	<div id="quotation-content">{% include 'quotation.html' %}</div>
+
+	<!-- Special Offer Section -->
+	<div id="special-offer-content">{% include 'special-offer.html' %}</div>
+
+	<!-- Subscribe Section -->
+	<div id="subscribe-content">{% include 'subscribe.html' %}</div>
+
+	<!-- Latest Blog Section -->
+	<div id="latest-blog-content">{% include 'latest-blog.html' %}</div>
+
+	<!-- Download App Section -->
+	<div id="download-app-content">{% include 'download-app.html' %}</div>
+
+	<!-- Footer Section -->
+	<div id="footer-content">{% include 'footer.html' %}</div>
+
+	<!-- Footer Bottom Section -->
+	<div id="footer-bottom-content">{% include 'footer-bottom.html' %}</div>
+
+	<script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+		crossorigin="anonymous"></script>
+	<script src="{% static 'js/plugins.js' %}"></script>
+	<script src="{% static 'js/script.js' %}"></script>
+	
+</body>
+
+</html>
