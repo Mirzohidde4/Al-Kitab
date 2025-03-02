@@ -3,6 +3,7 @@ from unfold.admin import ModelAdmin
 from django.contrib.auth.models import Group
 from .models import *
 
+
 # Register your models here.
 admin.site.unregister(Group)
 
@@ -17,3 +18,10 @@ class BookAdmin(ModelAdmin):
     list_display = ('title', 'author', 'price', 'genre')
     list_filter = ('genre', 'author', 'price')
     search_fields = ('title', 'author')    
+
+
+@admin.register(CustomUser)
+class UserAdmin(ModelAdmin):
+    list_display = ('first_name', 'last_name', 'is_superuser')
+    search_fields = ('first_name', 'last_name', 'email')
+    list_filter = ('is_superuser', 'is_staff')

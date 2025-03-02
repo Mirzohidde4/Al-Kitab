@@ -26,7 +26,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'main',
 ]
 
@@ -116,3 +115,15 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Custom User Model
+AUTH_USER_MODEL = 'main.CustomUser'
+
+# Authentication Backends
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+# Login/Logout URLs
+LOGIN_REDIRECT_URL = 'index' 
+LOGOUT_REDIRECT_URL = 'login'
