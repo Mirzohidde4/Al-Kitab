@@ -26,7 +26,44 @@
             <!-- <p><strong>Nashr yili:</strong> {{ book.year }}</p> -->
             <p class="description">{{ book.description }}</p>
         </div>
+        <button class="like-btn" data-book-id="{{ book.id }}" data-liked="{{ liked|yesno:'true,false' }}">
+            {% if liked %} ❤️ Liked {% else %} ❤️ {% endif %}
+        </button>
     </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll(".like-btn").forEach(button => {
+                let isLiked = button.getAttribute("data-liked") === "true";
+    
+                if (isLiked) {
+                    button.innerHTML = "❤️ Liked";
+                }
+    
+                button.addEventListener("click", function() {
+                    let bookId = this.getAttribute("data-book-id");
+                    let likeButton = this;
+    
+                    fetch(`/like/${bookId}/`, {
+                        method: "GET",
+                        headers: {
+                            "X-Requested-With": "XMLHttpRequest"
+                        },
+                        credentials: "same-origin"
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.liked) {
+                            likeButton.innerHTML = "❤️ Liked";
+                            likeButton.setAttribute("data-liked", "true");
+                        } else {
+                            likeButton.innerHTML = "❤️";
+                            likeButton.setAttribute("data-liked", "false");
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 </body>
 </html>

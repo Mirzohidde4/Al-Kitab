@@ -34,9 +34,6 @@
 			background-color: rgba(247, 242, 242, 0.7);
 			border-radius: 10px;
 			transition: background-color 0.3s ease;
-		}
-		.nav-arrow:hover {
-			background-color: rgba(255, 255, 255, 0.9);
 		} */
 		.login{
 			margin-right: 10px;
@@ -197,9 +194,6 @@
 										<div class="btn-wrap">
 											<a href="{% url 'detail' book.id %}" class="btn btn-outline-accent btn-accent-arrow">Read More<i
 													class="icon icon-ns-arrow-right"></i></a>
-											<button class="btn btn-outline-accent like-btn" data-book-id="{{ book.id }}">
-												❤️
-											</button>		
 										</div>
 									</div><!--banner-content-->
 									<img style="max-width: 600px; max-height: 600px;" src="{{ book.image.url }}" alt="banner" class="banner-image">
@@ -258,9 +252,7 @@
 									<div class="product-item">
 										<figure class="product-style">
 											<img src="{{ book.book.image.url }}" alt="{{ book.book.title }}" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">
-												Add to Cart
-											</button>
+												
 										</figure>
 										<figcaption>
 											<h3>{{ book.book.title }}</h3>
@@ -1218,33 +1210,7 @@
 		integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
 		crossorigin="anonymous"></script>
 	<script src="{% static 'js/plugins.js' %}"></script>
-	<script src="{% static 'js/script.js' %}"></script>
-	<script>
-		document.addEventListener("DOMContentLoaded", function() {
-			document.querySelectorAll(".like-btn").forEach(button => {
-				button.addEventListener("click", function() {
-					let bookId = this.getAttribute("data-book-id");
-					let likeButton = this;
-		
-					fetch(`/like/${bookId}/`, {
-						method: "GET",
-						headers: {
-							"X-Requested-With": "XMLHttpRequest"
-						},
-						credentials: "same-origin"
-					})
-					.then(response => response.json())
-					.then(data => {
-						if (data.liked) {
-							likeButton.innerHTML = "❤️ Liked";
-						} else {
-							likeButton.innerHTML = "❤️";
-						}
-					});
-				});
-			});
-		});
-	</script>		
+	<script src="{% static 'js/script.js' %}"></script>		
 </body>
 
 </html>

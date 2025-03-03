@@ -18,7 +18,9 @@ def index_page(request):
 
 def book_detail(request, id):
     book = get_object_or_404(Books, id=id)
-    return render(request, 'detail.html', {'book': book})
+    user = request.user
+    liked = SelectedBooks.objects.filter(user=user, book=book).exists()
+    return render(request, 'detail.html', {'book': book, 'liked': liked})
 
 
 def select_books(request, book_id):

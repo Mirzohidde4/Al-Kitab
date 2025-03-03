@@ -85,8 +85,22 @@ class SelectedBooks(models.Model):
     user = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE)
     book = models.ForeignKey(to=Books, on_delete=models.CASCADE)  
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     class Meta:
         unique_together = ('user', 'book') #faqat 1 marta qo'shish uchun  
         verbose_name = 'Tanlangan kitob'
         verbose_name_plural = 'Tanlangan kitoblar'
+
+
+from django.db import models
+
+class SellingBooks(models.Model):
+    book = models.ForeignKey(to=Books, on_delete=models.CASCADE, verbose_name='Kitob')
+    count = models.PositiveIntegerField(default=1, editable=False, verbose_name='Soni')  
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True, verbose_name="Qo'shilgan vaqti")
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True, verbose_name="O'zgartirilgan vaqti")
+
+    class Meta:
+        verbose_name = 'Sotilgan kitob'
+        verbose_name_plural = 'Sotilgan kitoblar'

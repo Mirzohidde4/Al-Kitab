@@ -35,3 +35,9 @@ class UserAdmin(ModelAdmin):
 @admin.register(SelectedBooks)
 class FeaturedBookAdmin(ModelAdmin):
     list_display = ('user', 'book', 'created_at')
+
+
+@admin.register(SellingBooks)
+class SellingBookAdmin(ModelAdmin):
+    list_display = ('book', 'count', 'created_at', 'updated_at')
+    search_fields = ('book__title', 'book__author')
