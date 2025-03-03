@@ -11,14 +11,14 @@ class Categorys(models.Model):
         return self.name
     
     class Meta:
-        verbose_name = 'Category'
-        verbose_name_plural = 'Categories'
+        verbose_name = 'Janr'
+        verbose_name_plural = 'Janrlar'
 
 
 class Books(models.Model):
     title = models.CharField(max_length=100, verbose_name='Kitob nomi')
     author = models.CharField(max_length=100, verbose_name='Muallif')
-    genre = models.ForeignKey(Categorys, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Janri')
+    genre = models.ManyToManyField(Categorys, verbose_name='Janri', related_name='janrlar')
     price = models.DecimalField(verbose_name='Narxi', max_digits=10, decimal_places=2)
     description = models.TextField(verbose_name='Tavsif')
     image = models.ImageField(upload_to='images/', verbose_name='Rasm', null=True, blank=True)
