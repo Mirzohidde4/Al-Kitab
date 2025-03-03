@@ -3,22 +3,33 @@ from .models import *
 from django.core.paginator import Paginator
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.http import JsonResponse
 
 # Create your views here.
 def index_page(request): 
     object_list = Books.objects.all()
-    books = []
-    for book in object_list:
-        books.insert(0, book) 
+    selected_book = SelectedBooks.objects.filter(user=request.user) if request.user.is_authenticated else []
+    books = list(object_list)[::-1] 
     paginator = Paginator(books, 1)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    return render(request, "index.html", {'page_obj': page_obj})
+    return render(request, "index.html", {'page_obj': page_obj, 'selected_book': selected_book})
 
 
 def book_detail(request, id):
     book = get_object_or_404(Books, id=id)
     return render(request, 'detail.html', {'book': book})
+
+
+def select_books(request, book_id):
+    book = get_object_or_404(Books, id=book_id)
+    user = request.user
+    liked, created = SelectedBooks.objects.get_or_create(user=user, book=book)
+
+    if not created:  #mavjud bo'lsa o'chirib tashlash
+        liked.delete()
+        return JsonResponse({'liked': False})
+    return JsonResponse({'liked': True})
 
 
 def signup_view(request):

@@ -30,3 +30,8 @@ class UserAdmin(ModelAdmin):
     list_display = ('first_name', 'last_name', 'is_superuser')
     search_fields = ('first_name', 'last_name', 'email')
     list_filter = ('is_superuser', 'is_staff')
+
+
+@admin.register(SelectedBooks)
+class FeaturedBookAdmin(ModelAdmin):
+    list_display = ('user', 'book', 'created_at')

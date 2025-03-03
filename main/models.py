@@ -23,6 +23,9 @@ class Books(models.Model):
     description = models.TextField(verbose_name='Tavsif')
     image = models.ImageField(upload_to='images/', verbose_name='Rasm', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    
+    def __str__(self):
+        return self.title
 
     class Meta:
         verbose_name = 'Kitob'
@@ -65,7 +68,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return self.email
+        return self.first_name
 
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}".strip()
@@ -77,3 +80,13 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         verbose_name = 'Foydalanuvchi'
         verbose_name_plural = 'Foydalanuvchilar'
 
+
+class SelectedBooks(models.Model):  
+    user = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE)
+    book = models.ForeignKey(to=Books, on_delete=models.CASCADE)  
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    class Meta:
+        unique_together = ('user', 'book') #faqat 1 marta qo'shish uchun  
+        verbose_name = 'Tanlangan kitob'
+        verbose_name_plural = 'Tanlangan kitoblar'

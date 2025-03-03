@@ -197,6 +197,9 @@
 										<div class="btn-wrap">
 											<a href="{% url 'detail' book.id %}" class="btn btn-outline-accent btn-accent-arrow">Read More<i
 													class="icon icon-ns-arrow-right"></i></a>
+											<button class="btn btn-outline-accent like-btn" data-book-id="{{ book.id }}">
+												❤️
+											</button>		
 										</div>
 									</div><!--banner-content-->
 									<img style="max-width: 600px; max-height: 600px;" src="{{ book.image.url }}" alt="banner" class="banner-image">
@@ -244,26 +247,31 @@
 						<div class="title">
 							<span>Some quality items</span>
 						</div>
-						<h2 class="section-title">Featured Books</h2>
+						<h2 class="section-title">Selected  Books</h2>
 					</div>
 
 					<div class="product-list" data-aos="fade-up">
 						<div class="row">
 							{% if request.user.is_authenticated %}
-							<div class="col-md-3">
-								<div class="product-item">
-									<figure class="product-style">
-										<img src="{% static 'images/product-image1.jpg' %}" alt="Books" class="product-item">
-										<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-											Cart</button>
-									</figure>
-									<figcaption>
-										<h3>Simple way of piece life</h3>
-										<span>Armor Ramsey</span>
-										<div class="item-price">$ 40.00</div>
-									</figcaption>
+								{% for book in selected_book %}
+								<div class="col-md-3">
+									<div class="product-item">
+										<figure class="product-style">
+											<img src="{{ book.book.image.url }}" alt="{{ book.book.title }}" class="product-item">
+											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">
+												Add to Cart
+											</button>
+										</figure>
+										<figcaption>
+											<h3>{{ book.book.title }}</h3>
+											<span>{{ book.book.author }}</span>
+											<div class="item-price">$ {{ book.book.price }}</div>
+										</figcaption>
+									</div>
 								</div>
-							</div>
+								{% endfor %}
+							{% else %}
+								<p>Tanlangan kitoblarni ko'rish uchun tizimga kiring.</p>
 							{% endif %}
 
 						</div><!--ft-books-slider-->
@@ -295,7 +303,7 @@
 
 						<div class="col-md-6">
 							<figure class="products-thumb">
-								<img src="images/single-image.jpg" alt="book" class="single-image">
+								<img src="{% static 'images/single-image.jpg' %}" alt="book" class="single-image">
 							</figure>
 						</div>
 
@@ -1211,7 +1219,32 @@
 		crossorigin="anonymous"></script>
 	<script src="{% static 'js/plugins.js' %}"></script>
 	<script src="{% static 'js/script.js' %}"></script>
-
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			document.querySelectorAll(".like-btn").forEach(button => {
+				button.addEventListener("click", function() {
+					let bookId = this.getAttribute("data-book-id");
+					let likeButton = this;
+		
+					fetch(`/like/${bookId}/`, {
+						method: "GET",
+						headers: {
+							"X-Requested-With": "XMLHttpRequest"
+						},
+						credentials: "same-origin"
+					})
+					.then(response => response.json())
+					.then(data => {
+						if (data.liked) {
+							likeButton.innerHTML = "❤️ Liked";
+						} else {
+							likeButton.innerHTML = "❤️";
+						}
+					});
+				});
+			});
+		});
+	</script>		
 </body>
 
 </html>
