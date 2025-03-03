@@ -15,9 +15,14 @@ class CategoryAdmin(ModelAdmin):
 
 @admin.register(Books)
 class BookAdmin(ModelAdmin):
-    list_display = ('title', 'author', 'price')
+    list_display = ('title', 'author', 'price', 'display_genres')
     list_filter = ('genre', 'author', 'price')
     search_fields = ('title', 'author')    
+
+    def display_genres(self, obj):
+        return ', '.join([genre.name for genre in obj.genre.all()])
+    
+    display_genres.short_description = 'Janrlar'
 
 
 @admin.register(CustomUser)

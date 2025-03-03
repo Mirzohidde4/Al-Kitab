@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from django.core.paginator import Paginator
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
 # Create your views here.
-def IndexPage(request): 
+def index_page(request): 
     object_list = Books.objects.all()
     books = []
     for book in object_list:
@@ -14,6 +14,11 @@ def IndexPage(request):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     return render(request, "index.html", {'page_obj': page_obj})
+
+
+def book_detail(request, id):
+    book = get_object_or_404(Books, id=id)
+    return render(request, 'detail.html', {'book': book})
 
 
 def signup_view(request):

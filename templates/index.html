@@ -195,7 +195,7 @@
 										<h2 class="banner-title">{{ book.title }}</h2>
 										<p>{{ book.description | truncatewords:20 }}</p>	
 										<div class="btn-wrap">
-											<a href="#" class="btn btn-outline-accent btn-accent-arrow">Read More<i
+											<a href="{% url 'detail' book.id %}" class="btn btn-outline-accent btn-accent-arrow">Read More<i
 													class="icon icon-ns-arrow-right"></i></a>
 										</div>
 									</div><!--banner-content-->
@@ -249,7 +249,7 @@
 
 					<div class="product-list" data-aos="fade-up">
 						<div class="row">
-
+							{% if request.user.is_authenticated %}
 							<div class="col-md-3">
 								<div class="product-item">
 									<figure class="product-style">
@@ -264,6 +264,7 @@
 									</figcaption>
 								</div>
 							</div>
+							{% endif %}
 
 						</div><!--ft-books-slider-->
 					</div><!--grid-->

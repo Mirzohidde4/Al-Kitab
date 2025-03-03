@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | BOOKSAW</title>
+    <title>Login | Al kitab</title>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
     <div class="container">
-        <h2>Login to BOOKSAW</h2>
+        <h2>Login to your Account</h2>
         <form method="POST" class="login-form">
             {% csrf_token %}
             <input type="email" name="email" placeholder="Enter your email" required>
