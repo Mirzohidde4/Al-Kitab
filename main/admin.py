@@ -2,6 +2,7 @@ from django.contrib import admin
 from unfold.admin import ModelAdmin
 from django.contrib.auth.models import Group
 from .models import *
+from django.db.models import Sum
 
 
 # Register your models here.
@@ -38,6 +39,16 @@ class FeaturedBookAdmin(ModelAdmin):
 
 
 @admin.register(SellingBooks)
-class SellingBookAdmin(ModelAdmin):
+class SellingBooksAdmin(admin.ModelAdmin):
     list_display = ('book', 'count', 'created_at', 'updated_at')
-    search_fields = ('book__title', 'book__author')
+    
+    def changelist_view(self, request, extra_context=None):
+        # Eng ko'p sotilgan kitoblarni hisoblash
+        top_books = SellingBooks.objects.values('book__id', 'book__title').annotate(
+            total_sold=Sum('count')
+        ).order_by('-total_sold')[:5]  # Top 5 kitoblar
+        
+        extra_context = extra_context or {}
+        extra_context['top_books'] = top_books
+        
+        return super().changelist_view(request, extra_context=extra_context)

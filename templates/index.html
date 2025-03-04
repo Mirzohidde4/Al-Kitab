@@ -291,11 +291,11 @@
 
 				<div class="col-md-8">
 
+					{% if top_book %}
 					<div class="row">
-
 						<div class="col-md-6">
 							<figure class="products-thumb">
-								<img src="{% static 'images/single-image.jpg' %}" alt="book" class="single-image">
+								<img src="{{ book_object.image.url }}" alt="{{ top_book.book.title }}" class="single-image">
 							</figure>
 						</div>
 
@@ -304,25 +304,22 @@
 								<h2 class="section-title divider">Best Selling Book</h2>
 
 								<div class="products-content">
-									<div class="author-name">By Timbur Hood</div>
-									<h3 class="item-title">Birds gonna be happy</h3>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu feugiat amet,
-										libero ipsum enim pharetra hac.</p>
-									<div class="item-price">$ 45.00</div>
+									<div class="author-name">By {{ book_object.author }}</div>
+									<h3 class="item-title">{{ book_object.title }}</h3>
+									<p>{{ book_object.description | truncatewords:20 }}</p>
+									<div class="item-price">$ {{ book_object.price }}</div>
 									<div class="btn-wrap">
-										<a href="#" class="btn-accent-arrow">shop it now <i
-												class="icon icon-ns-arrow-right"></i></a>
+										<a href="#" class="btn-accent-arrow">shop it now <i class="icon icon-ns-arrow-right"></i></a>
 									</div>
 								</div>
-
 							</div>
 						</div>
-
 					</div>
+					{% else %}
+						<p>Hozircha eng ko'p sotilgan kitob yo'q.</p>
+					{% endif %}
 					<!-- / row -->
-
 				</div>
-
 			</div>
 		</div>
 	</section>

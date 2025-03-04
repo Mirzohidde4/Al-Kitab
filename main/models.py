@@ -88,19 +88,22 @@ class SelectedBooks(models.Model):
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     class Meta:
-        unique_together = ('user', 'book') #faqat 1 marta qo'shish uchun  
+        # unique_together = ('user', 'book') #faqat 1 marta qo'shish uchun  
         verbose_name = 'Tanlangan kitob'
         verbose_name_plural = 'Tanlangan kitoblar'
 
 
-from django.db import models
-
 class SellingBooks(models.Model):
-    book = models.ForeignKey(to=Books, on_delete=models.CASCADE, verbose_name='Kitob')
-    count = models.PositiveIntegerField(default=1, editable=False, verbose_name='Soni')  
-    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True, verbose_name="Qo'shilgan vaqti")
-    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True, verbose_name="O'zgartirilgan vaqti")
-
+    book = models.ForeignKey(to='Books', on_delete=models.CASCADE, verbose_name='kitob')
+    count = models.PositiveIntegerField(verbose_name='soni', default=1, editable=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True, verbose_name='qo\'shilgan vaqti')
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True, verbose_name='o\'zgartirilgan vaqti')
+    
     class Meta:
         verbose_name = 'Sotilgan kitob'
         verbose_name_plural = 'Sotilgan kitoblar'
+    
+    def __str__(self):
+        return f"{self.book} - {self.count}"
+
+

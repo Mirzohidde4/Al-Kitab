@@ -4,6 +4,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.http import JsonResponse
+from django.db.models import Sum
 
 # Create your views here.
 def index_page(request): 
@@ -13,7 +14,17 @@ def index_page(request):
     paginator = Paginator(books, 1)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    return render(request, "index.html", {'page_obj': page_obj, 'selected_book': selected_book})
+   
+    #! eng kop sotilgan kitob
+    top_book = SellingBooks.objects.values('book__title').annotate(total_count=Sum('count')).order_by('-total_count').first()
+    if top_book:
+        book_title = top_book['book__title'] 
+        # top_book = top_book.first() #! id ni olish shart
+        # book_id = top_book['book']
+        # total_sold = top_book['total_count']
+    book_object = Books.objects.get(title=book_title) #! id bolishi kerak
+    
+    return render(request, "index.html", {'page_obj': page_obj, 'selected_book': selected_book, 'top_book': top_book, 'book_object': book_object})
 
 
 def book_detail(request, id):
@@ -32,6 +43,10 @@ def select_books(request, book_id):
         liked.delete()
         return JsonResponse({'liked': False})
     return JsonResponse({'liked': True})
+
+
+def sell_book(request, book_id):
+    return render(request, '')
 
 
 def signup_view(request):
