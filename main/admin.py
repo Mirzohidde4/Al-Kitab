@@ -12,6 +12,7 @@ admin.site.unregister(Group)
 @admin.register(Categorys)
 class CategoryAdmin(ModelAdmin):
     list_display = ('name',)
+    search_fields = ('name',)
 
 
 @admin.register(Books)
@@ -24,6 +25,7 @@ class BookAdmin(ModelAdmin):
         return ', '.join([genre.name for genre in obj.genre.all()])
     
     display_genres.short_description = 'Janrlar'
+    autocomplete_fields = ['genre']
 
 
 @admin.register(CustomUser)
@@ -34,21 +36,13 @@ class UserAdmin(ModelAdmin):
 
 
 @admin.register(SelectedBooks)
-class FeaturedBookAdmin(ModelAdmin):
+class SelectedBookAdmin(ModelAdmin):
     list_display = ('user', 'book', 'created_at')
+    autocomplete_fields = ['user', 'book']
 
 
 @admin.register(SellingBooks)
-class SellingBooksAdmin(admin.ModelAdmin):
+class SellingBooksAdmin(ModelAdmin):
     list_display = ('book', 'count', 'created_at', 'updated_at')
-    
-    def changelist_view(self, request, extra_context=None):
-        # Eng ko'p sotilgan kitoblarni hisoblash
-        top_books = SellingBooks.objects.values('book__id', 'book__title').annotate(
-            total_sold=Sum('count')
-        ).order_by('-total_sold')[:5]  # Top 5 kitoblar
-        
-        extra_context = extra_context or {}
-        extra_context['top_books'] = top_books
-        
-        return super().changelist_view(request, extra_context=extra_context)
+    list_filter = ('count',)
+    autocomplete_fields = ['book']

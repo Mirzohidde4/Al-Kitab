@@ -5,26 +5,33 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.http import JsonResponse
 from django.db.models import Sum
+from django.core.cache import cache
 
 # Create your views here.
 def index_page(request): 
+    #! kitoblar 
     object_list = Books.objects.all()
-    selected_book = SelectedBooks.objects.filter(user=request.user) if request.user.is_authenticated else []
     books = list(object_list)[::-1] 
+    
+    #! paginatsiya
     paginator = Paginator(books, 1)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
+    
+    #! tanlangan kitoblar
+    selected_book = SelectedBooks.objects.filter(user=request.user) if request.user.is_authenticated else []
    
     #! eng kop sotilgan kitob
-    top_book = SellingBooks.objects.values('book__title').annotate(total_count=Sum('count')).order_by('-total_count').first()
-    if top_book:
-        book_title = top_book['book__title'] 
-        # top_book = top_book.first() #! id ni olish shart
-        # book_id = top_book['book']
-        # total_sold = top_book['total_count']
-    book_object = Books.objects.get(title=book_title) #! id bolishi kerak
+    cache.clear()
+    top_books = (
+        SellingBooks.objects.values('book', 'book__id', 'book__title')  # Kitobni guruhlash
+        .annotate(total_count=Sum('count'))  # sum count
+        .order_by('-total_count', '-book__id')  # max count
+    ).first()
+    if top_books: book_id = top_books['book__id']  
+    book_object = Books.objects.get(id=book_id)
     
-    return render(request, "index.html", {'page_obj': page_obj, 'selected_book': selected_book, 'top_book': top_book, 'book_object': book_object})
+    return render(request, "index.html", {'page_obj': page_obj, 'selected_book': selected_book, 'book_object': book_object})
 
 
 def book_detail(request, id):
@@ -43,10 +50,6 @@ def select_books(request, book_id):
         liked.delete()
         return JsonResponse({'liked': False})
     return JsonResponse({'liked': True})
-
-
-def sell_book(request, book_id):
-    return render(request, '')
 
 
 def signup_view(request):
@@ -80,7 +83,7 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return redirect("index")  # Bosh sahifaga yo‘naltirish
+            return redirect("index")  
         else:
             messages.error(request, "Invalid email or password!")
             return redirect("login")

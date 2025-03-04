@@ -17,15 +17,15 @@ class Categorys(models.Model):
 
 class Books(models.Model):
     title = models.CharField(max_length=100, verbose_name='Kitob nomi')
-    author = models.CharField(max_length=100, verbose_name='Muallif')
+    author = models.CharField(max_length=100, verbose_name='Muallifi')
     genre = models.ManyToManyField(Categorys, verbose_name='Janri', related_name='janrlar')
     price = models.DecimalField(verbose_name='Narxi', max_digits=10, decimal_places=2)
-    description = models.TextField(verbose_name='Tavsif')
-    image = models.ImageField(upload_to='images/', verbose_name='Rasm', null=True, blank=True)
+    description = models.TextField(verbose_name='Tavsifi')
+    image = models.ImageField(upload_to='images/', verbose_name='Rasmi', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     
     def __str__(self):
-        return self.title
+        return f"{self.title} - {self.author}"
 
     class Meta:
         verbose_name = 'Kitob'
@@ -55,12 +55,12 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(unique=True)
-    first_name = models.CharField(max_length=30, blank=True)
-    last_name = models.CharField(max_length=30, blank=True)
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
-    date_joined = models.DateTimeField(default=timezone.now)
+    email = models.EmailField(unique=True, verbose_name='Email')
+    first_name = models.CharField(max_length=30, blank=True, verbose_name='Ism')
+    last_name = models.CharField(max_length=30, blank=True, verbose_name='Familya')
+    is_active = models.BooleanField(default=True, verbose_name='Faol')
+    is_staff = models.BooleanField(default=False, verbose_name='Admin')
+    date_joined = models.DateTimeField(default=timezone.now, verbose_name='Qo\'shilgan vaqti')
 
     objects = CustomUserManager()
 
@@ -82,10 +82,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 
 class SelectedBooks(models.Model):  
-    user = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE)
-    book = models.ForeignKey(to=Books, on_delete=models.CASCADE)  
-    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    user = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, verbose_name='Foydalanuvchi')
+    book = models.ForeignKey(to=Books, on_delete=models.CASCADE, verbose_name='Kitob')  
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True, verbose_name='Qo\'shilgan vaqti')
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True, verbose_name='O\'zgartirilgan vaqti')
 
     class Meta:
         # unique_together = ('user', 'book') #faqat 1 marta qo'shish uchun  
@@ -95,7 +95,7 @@ class SelectedBooks(models.Model):
 
 class SellingBooks(models.Model):
     book = models.ForeignKey(to='Books', on_delete=models.CASCADE, verbose_name='kitob')
-    count = models.PositiveIntegerField(verbose_name='soni', default=1, editable=True)
+    count = models.PositiveIntegerField(verbose_name='sotilgan soni', default=1, editable=True)
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True, verbose_name='qo\'shilgan vaqti')
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True, verbose_name='o\'zgartirilgan vaqti')
     
