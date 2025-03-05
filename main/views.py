@@ -13,7 +13,7 @@ def index_page(request):
     object_list = Books.objects.all()
     books = list(object_list)[::-1] 
     
-    #! paginatsiya
+    #! Asosiy qism
     paginator = Paginator(books, 1)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
@@ -30,8 +30,17 @@ def index_page(request):
     ).first()
     if top_books: book_id = top_books['book__id']  
     book_object = Books.objects.get(id=book_id)
+
+    #! kategoriya kitoblar
+    book_categorys = Categorys.objects.all()
+    paginate = Paginator(books, 4)
+    pages_number = request.GET.get("page")
+    all_books = paginate.get_page(pages_number)
     
-    return render(request, "index.html", {'page_obj': page_obj, 'selected_book': selected_book, 'book_object': book_object})
+    return render(request, "index.html", 
+        {'page_obj': page_obj, 'selected_book': selected_book, 'book_object': book_object, 
+         'categorys': book_categorys, 'all_books': all_books
+        })
 
 
 def book_detail(request, id):
