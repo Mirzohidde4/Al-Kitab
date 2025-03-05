@@ -21,7 +21,7 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 	<style>
-		/* .col-book{
+		.col-book{
 			position: relative;
 			display: flex;
 			align-items: center;
@@ -34,7 +34,7 @@
 			background-color: rgba(247, 242, 242, 0.7);
 			border-radius: 10px;
 			transition: background-color 0.3s ease;
-		} */
+		}
 		.login{
 			margin-right: 10px;
 			transition: 0.3s;
@@ -324,7 +324,7 @@
 		</div>
 	</section>
 
-	<section id="popular-books" class="bookshelf py-5 my-5">
+	<section id="popular-books" class="bookshelf py-5 my-5"> <!--pagination-->
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
@@ -359,7 +359,7 @@
 												<figcaption>
 													<h3>{{ book.title }}</h3>
 													<span>{{ book.author }}</span>
-													<div class="item-price">{{ book.price }}</div>
+													<div class="item-price">$ {{ book.price }}</div>
 												</figcaption>
 											</div>
 										</div>
@@ -384,7 +384,7 @@
 														<figcaption>
 															<h3>{{ book.title }}</h3>
 															<span>{{ book.author }}</span>
-															<div class="item-price">{{ book.price }}</div>
+															<div class="item-price">$ {{ book.price }}</div>
 														</figcaption>
 													</div>
 												</div>
@@ -412,7 +412,7 @@
 		</div>
 	</section>
 
-	<section id="special-offer" class="bookshelf pb-5 mb-5">
+	<section id="special-offer" class="bookshelf pb-5 mb-5"> <!--tugadi-->
 
 		<div class="section-header align-center">
 			<div class="title">
@@ -426,78 +426,25 @@
 				<div class="inner-content">
 					<div class="product-list" data-aos="fade-up">
 						<div class="grid product-grid">
-							<div class="product-item">
-								<figure class="product-style">
-									<img src="images/product-item5.jpg" alt="Books" class="product-item">
-									<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-										Cart</button>
-								</figure>
-								<figcaption>
-									<h3>Simple way of piece life</h3>
-									<span>Armor Ramsey</span>
-									<div class="item-price">
-										<span class="prev-price">$ 50.00</span>$ 40.00
+							
+							{% if offer_books %}
+								{% for book in offer_books %}
+									<div class="product-item">
+										<figure class="product-style">
+											<img src="{{ book.book.image.url }}" alt="{{ book.book.title }}" class="product-item">
+											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
+												Cart</button>
+										</figure>
+										<figcaption>
+											<h3>{{ book.book.title }}</h3>
+											<span>{{ book.book.author }}</span>
+											<div class="item-price">
+												<span class="prev-price">$ {{ book.book.price }}</span>$ {{ book.price }} 
+											</div>
+										</figcaption>
 									</div>
-								</div>
-							</figcaption>
-
-							<div class="product-item">
-								<figure class="product-style">
-									<img src="images/product-item6.jpg" alt="Books" class="product-item">
-									<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-										Cart</button>
-								</figure>
-								<figcaption>
-									<h3>Great travel at desert</h3>
-									<span>Sanchit Howdy</span>
-									<div class="item-price">
-										<span class="prev-price">$ 30.00</span>$ 38.00
-									</div>
-								</div>
-							</figcaption>
-
-							<div class="product-item">
-								<figure class="product-style">
-									<img src="images/product-item7.jpg" alt="Books" class="product-item">
-									<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-										Cart</button>
-								</figure>
-								<figcaption>
-									<h3>The lady beauty Scarlett</h3>
-									<span>Arthur Doyle</span>
-									<div class="item-price">
-										<span class="prev-price">$ 35.00</span>$ 45.00
-									</div>
-								</div>
-							</figcaption>
-
-							<div class="product-item">
-								<figure class="product-style">
-									<img src="images/product-item8.jpg" alt="Books" class="product-item">
-									<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-										Cart</button>
-								</figure>
-								<figcaption>
-									<h3>Once upon a time</h3>
-									<span>Klien Marry</span>
-									<div class="item-price">
-										<span class="prev-price">$ 25.00</span>$ 35.00
-									</div>
-								</div>
-							</figcaption>
-
-							<div class="product-item">
-								<figure class="product-style">
-									<img src="images/product-item2.jpg" alt="Books" class="product-item">
-									<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-										Cart</button>
-								</figure>
-								<figcaption>
-									<h3>Simple way of piece life</h3>
-									<span>Armor Ramsey</span>
-									<div class="item-price">$ 40.00</div>
-								</figcaption>
-							</div>
+								{% endfor %}
+							{% endif %}	
 						</div><!--grid-->
 					</div>
 				</div><!--inner-content-->
@@ -542,7 +489,7 @@
 		</div>
 	</section>
 
-	<section id="latest-blog" class="py-5 my-5">
+	<section id="latest-blog" class="py-5 my-5"> <!--tekshirish-->
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
@@ -555,115 +502,46 @@
 					</div>
 
 					<div class="row">
-
 						<div class="col-md-4">
+							{% if articles %}
+								{% for article in articles %}
+									<article class="column" data-aos="fade-up">
+										<figure>
+											<a href="#" class="image-hvr-effect">
+												<img src="{{ article.image.url }}" alt="image" class="post-image">
+											</a>
+										</figure>
 
-							<article class="column" data-aos="fade-up">
+										<div class="post-item">
+											<div class="meta-date">{{ article.created_at.date }}</div>
+											<h3><a href="#">{{ article.text }}</a></h3>
 
-								<figure>
-									<a href="#" class="image-hvr-effect">
-										<img src="images/post-img1.jpg" alt="post" class="post-image">
-									</a>
-								</figure>
-
-								<div class="post-item">
-									<div class="meta-date">Mar 30, 2021</div>
-									<h3><a href="#">Reading books always makes the moments happy</a></h3>
-
-									<div class="links-element">
-										<div class="categories">inspiration</div>
-										<div class="social-links">
-											<ul>
-												<li>
-													<a href="#"><i class="icon icon-facebook"></i></a>
-												</li>
-												<li>
-													<a href="#"><i class="icon icon-twitter"></i></a>
-												</li>
-												<li>
-													<a href="#"><i class="icon icon-behance-square"></i></a>
-												</li>
-											</ul>
+											<div class="links-element">
+												<div class="categories">inspiration</div>
+												<div class="social-links">
+													<ul>
+														<li>
+															<a href="#"><i class="icon icon-facebook"></i></a>
+														</li>
+														<li>
+															<a href="#"><i class="icon icon-twitter"></i></a>
+														</li>
+														<li>
+															<a href="#"><i class="icon icon-instagram"></i></a>
+														</li>
+													</ul>
+												</div>
+											</div><!--links-element-->
 										</div>
-									</div><!--links-element-->
-
-								</div>
-							</article>
-
+									</article>
+								{% endfor %}
+							{% endif %}
 						</div>
-						<div class="col-md-4">
-
-							<article class="column" data-aos="fade-up" data-aos-delay="200">
-								<figure>
-									<a href="#" class="image-hvr-effect">
-										<img src="images/post-img2.jpg" alt="post" class="post-image">
-									</a>
-								</figure>
-								<div class="post-item">
-									<div class="meta-date">Mar 29, 2021</div>
-									<h3><a href="#">Reading books always makes the moments happy</a></h3>
-
-									<div class="links-element">
-										<div class="categories">inspiration</div>
-										<div class="social-links">
-											<ul>
-												<li>
-													<a href="#"><i class="icon icon-facebook"></i></a>
-												</li>
-												<li>
-													<a href="#"><i class="icon icon-twitter"></i></a>
-												</li>
-												<li>
-													<a href="#"><i class="icon icon-behance-square"></i></a>
-												</li>
-											</ul>
-										</div>
-									</div><!--links-element-->
-
-								</div>
-							</article>
-
-						</div>
-						<div class="col-md-4">
-
-							<article class="column" data-aos="fade-up" data-aos-delay="400">
-								<figure>
-									<a href="#" class="image-hvr-effect">
-										<img src="images/post-img3.jpg" alt="post" class="post-image">
-									</a>
-								</figure>
-								<div class="post-item">
-									<div class="meta-date">Feb 27, 2021</div>
-									<h3><a href="#">Reading books always makes the moments happy</a></h3>
-
-									<div class="links-element">
-										<div class="categories">inspiration</div>
-										<div class="social-links">
-											<ul>
-												<li>
-													<a href="#"><i class="icon icon-facebook"></i></a>
-												</li>
-												<li>
-													<a href="#"><i class="icon icon-twitter"></i></a>
-												</li>
-												<li>
-													<a href="#"><i class="icon icon-behance-square"></i></a>
-												</li>
-											</ul>
-										</div>
-									</div><!--links-element-->
-
-								</div>
-							</article>
-
-						</div>
-
 					</div>
 
 					<div class="row">
-
 						<div class="btn-wrap align-center">
-							<a href="#" class="btn btn-outline-accent btn-accent-arrow" tabindex="0">Read All Articles<i
+							<a href="#" class="btn btn-outline-accent btn-accent-arrow" tabindex="0">View All Books<i
 									class="icon icon-ns-arrow-right"></i></a>
 						</div>
 					</div>

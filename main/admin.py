@@ -46,3 +46,20 @@ class SellingBooksAdmin(ModelAdmin):
     list_display = ('book', 'count', 'created_at', 'updated_at')
     list_filter = ('count',)
     autocomplete_fields = ['book']
+
+
+@admin.register(OfferBooks)
+class OfferBookAdmin(ModelAdmin):
+    list_display = ('book', 'price', 'created_at', 'updated_at')
+    autocomplete_fields = ['book']
+    list_filter = ('price',)
+    search_fields = ('book__title', 'book__author')
+
+
+@admin.register(Articles)
+class ArticlesAdmin(ModelAdmin):
+    list_display = ('short_description', 'created_at')    
+    def short_description(self, obj):
+        return " ".join(obj.text.split()[:3]) + "..." if obj.text else ""
+
+    short_description.short_description = "Matn"

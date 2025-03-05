@@ -94,7 +94,7 @@ class SelectedBooks(models.Model):
 
 
 class SellingBooks(models.Model):
-    book = models.ForeignKey(to='Books', on_delete=models.CASCADE, verbose_name='kitob')
+    book = models.ForeignKey(to=Books, on_delete=models.CASCADE, verbose_name='kitob')
     count = models.PositiveIntegerField(verbose_name='sotilgan soni', default=1, editable=True)
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True, verbose_name='qo\'shilgan vaqti')
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True, verbose_name='o\'zgartirilgan vaqti')
@@ -107,3 +107,28 @@ class SellingBooks(models.Model):
         return f"{self.book} - {self.count}"
 
 
+class OfferBooks(models.Model):
+    book = models.ForeignKey(to=Books, on_delete=models.CASCADE, verbose_name='kitob')
+    price = models.DecimalField(verbose_name='chegirma narxi', max_digits=10, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True, verbose_name='qo\'shilgan vaqti')
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True, verbose_name='o\'zgartirilgan vaqti')
+    
+    class Meta:
+        verbose_name = 'Chegirma'
+        verbose_name_plural = 'Chegirmalar'
+    
+    def __str__(self):
+        return f"{self.book} - {self.price}"
+    
+
+class Articles(models.Model):
+    text = models.TextField(verbose_name='Matn')
+    image = models.ImageField(upload_to='articles/', verbose_name='Rasm', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True, verbose_name='Qo\'shilgan vaqti')
+
+    class Meta:
+        verbose_name = 'Maqol'
+        verbose_name_plural = 'Maqollar'
+
+    def __str__(self):
+        return f"{self.text[:3]}..."    

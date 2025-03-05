@@ -36,11 +36,17 @@ def index_page(request):
     paginate = Paginator(books, 4)
     pages_number = request.GET.get("page")
     all_books = paginate.get_page(pages_number)
+
+    #! chegirma kitoblar
+    offer_books = OfferBooks.objects.all()
+
+
+    #! maqollar
+    articles = Articles.objects.all()
     
-    return render(request, "index.html", 
-        {'page_obj': page_obj, 'selected_book': selected_book, 'book_object': book_object, 
-         'categorys': book_categorys, 'all_books': all_books
-        })
+    return render(request, "index.html", {'page_obj': page_obj, 'selected_book': selected_book, 
+        'book_object': book_object, 'categorys': book_categorys, 'all_books': all_books, 
+        'offer_books': offer_books, 'articles': articles})
 
 
 def book_detail(request, id):
