@@ -33,7 +33,10 @@
 			padding: 10px;
 			background-color: rgba(247, 242, 242, 0.7);
 			border-radius: 10px;
-			transition: background-color 0.3s ease;
+			transition: 0.2s;
+		}
+		.nav-arrow:hover{
+			color: rgb(105, 105, 105);
 		}
 		.login{
 			margin-right: 10px;
@@ -560,19 +563,19 @@
 
 						<div class="col-md-5">
 							<figure>
-								<img src="images/device.png" alt="phone" class="single-image">
+								<img src="{% static 'images/device.png' %}" alt="phone" class="single-image">
 							</figure>
 						</div>
 
 						<div class="col-md-7">
 							<div class="app-info">
-								<h2 class="section-title divider">Download our app now !</h2>
+								<h2 class="section-title divider">Subscribe our channel now !</h2>
 								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis sed ptibus
 									liberolectus nonet psryroin. Amet sed lorem posuere sit iaculis amet, ac urna.
 									Adipiscing fames semper erat ac in suspendisse iaculis.</p>
 								<div class="google-app">
-									<img src="images/google-play.jpg" alt="google play">
-									<img src="images/app-store.jpg" alt="app store">
+									<img src="{% static 'images/google-play.jpg' %}" alt="google play">
+									<img src="{% static 'images/app-store.jpg' %}" alt="app store">
 								</div>
 							</div>
 						</div>
@@ -591,7 +594,7 @@
 
 					<div class="footer-item">
 						<div class="company-brand">
-							<img src="images/main-logo.png" alt="logo" class="footer-logo">
+							<img src="{% static 'images/main-logo.png' %}" alt="logo" class="footer-logo">
 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis sed ptibus liberolectus
 								nonet psryroin. Amet sed lorem posuere sit iaculis amet, ac urna. Adipiscing fames
 								semper erat ac in suspendisse iaculis.</p>

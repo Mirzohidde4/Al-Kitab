@@ -1921,6 +1921,7 @@ Version: 1.1
     #billboard .main-slider {
       margin: 70px 0;
       padding: 0;
+      width: fit-content;
     }
   
     .main-slider .slider-item {

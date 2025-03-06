@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.db.models import Sum
 from django.core.cache import cache
+from django.contrib.postgres.search import SearchVector
 
 # Create your views here.
 def index_page(request): 
@@ -40,7 +41,6 @@ def index_page(request):
     #! chegirma kitoblar
     offer_books = OfferBooks.objects.all()
 
-
     #! maqollar
     articles = Articles.objects.all()
     
@@ -65,6 +65,12 @@ def select_books(request, book_id):
         liked.delete()
         return JsonResponse({'liked': False})
     return JsonResponse({'liked': True})
+
+
+# def search_view(request):
+#     name = request.GET.get('search')
+#     search_filter = Books.objects.filter(title__icontains=name) if name else None
+#     return render(request, 'detail.html', {'results': search_filter, 'name': name}) 
 
 
 def signup_view(request):
