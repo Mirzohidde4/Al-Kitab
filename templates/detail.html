@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ book.title }} - Batafsil</title>
-    <link rel="stylesheet" href="styles.css">
+    <!-- <link rel="stylesheet" href="{% static 'styles.css' %}"> -->
 </head>
 <body>
 
@@ -24,47 +24,15 @@
                     {{ genre.name }}{% if not forloop.last %}, {% endif %}
                 {% endfor %}
             </p>
-            <!-- <p><strong>Nashr yili:</strong> {{ book.year }}</p> -->
             <p class="description">{{ book.description }}</p>
         </div>
-        <button class="like-btn" data-book-id="{{ book.id }}" data-liked="{{ liked|yesno:'true,false' }}">
-            {% if liked %} ❤️ Liked {% else %} ❤️ {% endif %}
-        </button>
+        {% if request.user.is_authenticated %}
+            <button class="like-btn" data-book-id="{{ book.id }}" data-liked="{{ liked|yesno:'true,false' }}">
+                {% if liked %} ❤️ Liked {% else %} ❤️ {% endif %}
+            </button>
+        {% endif %}
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll(".like-btn").forEach(button => {
-                let isLiked = button.getAttribute("data-liked") === "true";
-    
-                if (isLiked) {
-                    button.innerHTML = "❤️ Liked";
-                }
-    
-                button.addEventListener("click", function() {
-                    let bookId = this.getAttribute("data-book-id");
-                    let likeButton = this;
-    
-                    fetch(`/like/${bookId}/`, {
-                        method: "GET",
-                        headers: {
-                            "X-Requested-With": "XMLHttpRequest"
-                        },
-                        credentials: "same-origin"
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.liked) {
-                            likeButton.innerHTML = "❤️ Liked";
-                            likeButton.setAttribute("data-liked", "true");
-                        } else {
-                            likeButton.innerHTML = "❤️";
-                            likeButton.setAttribute("data-liked", "false");
-                        }
-                    });
-                });
-            });
-        });
-    </script>
+    <script src="{% static 'js/scripts.js' %}"></script>
 </body>
 </html>

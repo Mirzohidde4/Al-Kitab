@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="author" content="">
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+	<link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'icomoon/icomoon.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+</head>
+<body>
+    <section id="billboard"> <!--css-->
+		<div class="container">
+			<div class="row">
+				<div class="col-book">
+					{% if results %}
+						{% for book in results %}	
+
+							{% if results.has_previous %}
+								<a href="?page={{ results.previous_page_number }}" class="nav-arrow nav-prev">
+									<i class="icon icon-arrow-left"></i>
+								</a>
+                            {% endif %}
+							
+							<div class="main-slider pattern-overlay">
+								<div class="slider-item">
+									<div class="banner-content">
+										<h2 class="banner-title">{{ book.title }}</h2>
+										<p>{{ book.description | truncatewords:20 }}</p>	
+										<div class="btn-wrap">
+											<a href="{% url 'detail' book.id %}" class="btn btn-outline-accent btn-accent-arrow">Read More<i
+													class="icon icon-ns-arrow-right"></i></a>
+										</div>
+									</div><!--banner-content-->
+									<img style="max-width: 600px; max-height: 600px;" src="{{ book.image.url }}" alt="banner" class="banner-image">
+								</div><!--slider-item-->
+							</div><!--slider-->
+				
+							{% if results.has_next %}
+                            <a href="?page={{ results.next_page_number }}" class="nav-arrow nav-next">
+                                <i class="icon icon-arrow-right"></i>
+                            </a>
+                        {% endif %}
+					
+						{% endfor %}
+					{% endif %}	
+				</div>
+			</div>
+		</div>
+	</section>
+
+    <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+		crossorigin="anonymous"></script>
+	<script src="{% static 'js/plugins.js' %}"></script>
+	<script src="{% static 'js/script.js' %}"></script>		
+</body>
+</html>

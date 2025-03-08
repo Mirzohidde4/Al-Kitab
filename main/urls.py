@@ -9,4 +9,5 @@ urlpatterns = [
     path('logout/', logout_view, name='logout'),
     path('detail/<int:id>/', book_detail, name='detail'),
     path('like/<int:book_id>/', select_books, name='like_book'),
+    path('search/', search_view, name='search'),
 ]

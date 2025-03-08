@@ -8,6 +8,7 @@ from django.db.models import Sum
 from django.core.cache import cache
 from django.contrib.postgres.search import SearchVector
 
+
 # Create your views here.
 def index_page(request): 
     #! kitoblar 
@@ -52,7 +53,10 @@ def index_page(request):
 def book_detail(request, id):
     book = get_object_or_404(Books, id=id)
     user = request.user
-    liked = SelectedBooks.objects.filter(user=user, book=book).exists()
+    if request.user.is_authenticated:
+        liked = SelectedBooks.objects.filter(user=user, book=book).exists()
+    else: liked = False    
+
     return render(request, 'detail.html', {'book': book, 'liked': liked})
 
 
@@ -67,10 +71,13 @@ def select_books(request, book_id):
     return JsonResponse({'liked': True})
 
 
-# def search_view(request):
-#     name = request.GET.get('search')
-#     search_filter = Books.objects.filter(title__icontains=name) if name else None
-#     return render(request, 'detail.html', {'results': search_filter, 'name': name}) 
+def search_view(request): #! bitmagan
+    name = request.GET.get('search', '')
+    search_filter = Books.objects.filter(title__icontains=name).order_by('id') if name else None
+    paginator = Paginator(search_filter, 1)
+    page_number = request.GET.get("page")
+    results = paginator.get_page(page_number)
+    return render(request, 'search_results.html', {'results': results, 'name': name}) 
 
 
 def signup_view(request):
