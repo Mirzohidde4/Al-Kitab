@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
-
 <head>
 	<title>Al kitab</title>
 	<meta charset="utf-8">
@@ -98,12 +97,11 @@
 								<a href="{% url 'signup' %}" class="signup"><i></i><span>Sign up</span></a>
 							{% endif %}
 							<div class="action-menu">
-
 								<div class="search-bar">
-									<a href="{% url 'search' %}" class="search-button search-toggle" data-selector="#header-wrap">
+									<a href="#" class="search-button search-toggle" data-selector="#header-wrap" onclick="submitSearchForm(event)">
 										<i class="icon icon-search"></i>
 									</a>
-									<form role="search" method="get" class="search-box" action="{% url 'search' %}">
+									<form id="searchForm" role="search" method="get" class="search-box" action="{% url 'search' %}">
 										<input name="search" class="search-field text search-input" placeholder="Search"
 											type="search" value="{{ name }}">
 									</form>
@@ -745,7 +743,18 @@
 		integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
 		crossorigin="anonymous"></script>
 	<script src="{% static 'js/plugins.js' %}"></script>
-	<script src="{% static 'js/script.js' %}"></script>		
+	<script src="{% static 'js/script.js' %}"></script>	
+	<script>
+		function submitSearchForm(event) {
+			event.preventDefault();
+			let searchInput = document.querySelector(".search-input"); 
+			if (searchInput.value.trim() !== "") {  
+				document.getElementById("searchForm").submit();
+			} else {
+				searchInput.focus();
+			}
+		}
+	</script>	
 </body>
 
 </html>

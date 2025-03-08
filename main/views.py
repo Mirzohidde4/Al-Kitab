@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.http import JsonResponse
@@ -71,12 +71,17 @@ def select_books(request, book_id):
     return JsonResponse({'liked': True})
 
 
-def search_view(request): #! bitmagan
-    name = request.GET.get('search', '')
-    search_filter = Books.objects.filter(title__icontains=name).order_by('id') if name else None
+def search_view(request): 
+    name = request.GET.get('search')
+    search_filter = Books.objects.filter(title__icontains=name).order_by('id') if name else Books.objects.none()
     paginator = Paginator(search_filter, 1)
     page_number = request.GET.get("page")
-    results = paginator.get_page(page_number)
+    try:
+        results = paginator.get_page(page_number)
+    except PageNotAnInteger:
+        results = paginator.get_page(1)
+    except EmptyPage:
+        results = paginator.get_page(paginator.num_pages)
     return render(request, 'search_results.html', {'results': results, 'name': name}) 
 
 

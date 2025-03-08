@@ -21,8 +21,156 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'icomoon/icomoon.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+	<style>
+		.col-book{
+			position: relative;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+		.nav-arrow {
+			font-size: 24px;
+			text-decoration: none;
+			padding: 10px;
+			background-color: rgba(247, 242, 242, 0.7);
+			border-radius: 10px;
+			transition: 0.2s;
+		}
+		.nav-arrow:hover{
+			color: rgb(105, 105, 105);
+		}
+		.login{
+			margin-right: 10px;
+			transition: 0.3s;
+		}
+		.login:hover{
+			color: rgb(191, 159, 121);
+		}
+		.signup{
+			margin: 10px;
+			transition: 0.3s;
+		}
+		.signup:hover{
+			color: rgb(191, 159, 121);
+		}
+		.logout{
+			margin: 10px;
+			transition: 0.3s;
+		}
+		.logout:hover{
+			color: rgb(191, 159, 121);
+		}
+	</style>
 </head>
-<body>
+<body data-bs-spy="scroll" data-bs-target="#header" tabindex="0">
+	<div id="header-wrap"> 
+		<div class="top-content"> <!--search-->
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="social-links">
+							<ul>
+								<li>
+									<a href="#"><i class="icon icon-facebook"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="icon icon-twitter"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="icon icon-youtube-play"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="icon icon-behance-square"></i></a>
+								</li>
+							</ul>
+						</div><!--social-links-->
+					</div>
+					<div class="col-md-6">
+						<div class="right-element">
+							{% if request.user.is_authenticated %}
+								<a href="#" class="user-account for-buy"><i
+										class="icon icon-user"></i><span>{{ request.user.first_name }}</span></a>
+								<a href="{% url 'logout' %}" class="logout"><i></i><span>Logout</span></a>
+							{% else %}
+								<a href="{% url 'login' %}" class="login"><i></i><span>Login</span></a>
+								<a href="{% url 'signup' %}" class="signup"><i></i><span>Sign up</span></a>
+							{% endif %}
+							<div class="action-menu">
+
+								<div class="search-bar">
+									<a href="{% url 'search' %}" class="search-button search-toggle" data-selector="#header-wrap">
+										<i class="icon icon-search"></i>
+									</a>
+									<form role="search" method="get" class="search-box" action="{% url 'search' %}">
+										<input name="search" class="search-field text search-input" placeholder="Search"
+											type="search" value="{{ name }}">
+									</form>
+								</div>
+							</div>
+
+						</div><!--top-right-->
+					</div>
+
+				</div>
+			</div>
+		</div><!--top-content-->
+
+		<header id="header"> <!--pages-->
+			<div class="container-fluid">
+				<div class="row">
+
+					<div class="col-md-2">
+						<div class="main-logo">
+							<a href="{% url 'index' %}"><img src="{% static 'images/main-logo.png' %}" alt="logo"></a>
+						</div>
+
+					</div>
+
+					<div class="col-md-10">
+
+						<nav id="navbar">
+							<div class="main-menu stellarnav">
+								<ul class="menu-list">
+									<li class="menu-item active"><a href="#home">Home</a></li>
+									<li class="menu-item has-sub">
+										<a href="#pages" class="nav-link">Pages</a>
+
+										<ul>
+											<li class="active"><a href="index.html">Home</a></li>
+											<li><a href="index.html">About</a></li>
+											<li><a href="index.html">Styles</a></li>
+											<li><a href="index.html">Blog</a></li>
+											<li><a href="index.html">Post Single</a></li>
+											<li><a href="index.html">Our Store</a></li>
+											<li><a href="index.html">Product Single</a></li>
+											<li><a href="index.html">Contact</a></li>
+											<li><a href="index.html">Thank You</a></li>
+										</ul>
+
+									</li>
+									<li class="menu-item"><a href="#featured-books" class="nav-link">Featured</a></li>
+									<li class="menu-item"><a href="#popular-books" class="nav-link">Popular</a></li>
+									<li class="menu-item"><a href="#special-offer" class="nav-link">Offer</a></li>
+									<li class="menu-item"><a href="#latest-blog" class="nav-link">Articles</a></li>
+									<li class="menu-item"><a href="#download-app" class="nav-link">Download App</a></li>
+								</ul>
+
+								<div class="hamburger">
+									<span class="bar"></span>
+									<span class="bar"></span>
+									<span class="bar"></span>
+								</div>
+
+							</div>
+						</nav>
+
+					</div>
+
+				</div>
+			</div>
+		</header>
+	</div><!--header-wrap-->
+
     <section id="billboard"> <!--css-->
 		<div class="container">
 			<div class="row">
@@ -31,7 +179,7 @@
 						{% for book in results %}	
 
 							{% if results.has_previous %}
-								<a href="?page={{ results.previous_page_number }}" class="nav-arrow nav-prev">
+								<a href="?search={{ name }}&page={{ results.previous_page_number }}" class="nav-arrow nav-prev">
 									<i class="icon icon-arrow-left"></i>
 								</a>
                             {% endif %}
@@ -51,7 +199,7 @@
 							</div><!--slider-->
 				
 							{% if results.has_next %}
-                            <a href="?page={{ results.next_page_number }}" class="nav-arrow nav-next">
+                            <a href="?search={{ name }}&page={{ results.next_page_number }}" class="nav-arrow nav-next">
                                 <i class="icon icon-arrow-right"></i>
                             </a>
                         {% endif %}
