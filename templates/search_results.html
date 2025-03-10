@@ -60,6 +60,32 @@
 		.logout:hover{
 			color: rgb(191, 159, 121);
 		}
+		.no-results {
+			color: red;
+			font-size: 20px;
+			text-align: center;
+			margin-top: 20px; 
+			display: flex;
+			font-weight: 500;
+			justify-content: center;
+			align-items: center;
+			height: 10vh; 
+			text-transform: uppercase;
+		}
+
+		@media (max-width: 768px) {
+			.no-results {
+				font-size: 18px;
+				margin-top: 10px; 
+			}
+		}
+
+		@media (max-width: 480px) {
+			.no-results {
+				font-size: 16px;
+				margin-top: 20px;
+			}
+		}
 	</style>
 </head>
 <body data-bs-spy="scroll" data-bs-target="#header" tabindex="0">
@@ -205,6 +231,8 @@
                         {% endif %}
 					
 						{% endfor %}
+					{% else %}
+						<p class="no-results">Hech narsa topilmadi !</p>
 					{% endif %}	
 				</div>
 			</div>

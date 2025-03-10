@@ -74,14 +74,17 @@ def select_books(request, book_id):
 def search_view(request): 
     name = request.GET.get('search')
     search_filter = Books.objects.filter(title__icontains=name).order_by('id') if name else Books.objects.none()
-    paginator = Paginator(search_filter, 1)
-    page_number = request.GET.get("page")
-    try:
-        results = paginator.get_page(page_number)
-    except PageNotAnInteger:
-        results = paginator.get_page(1)
-    except EmptyPage:
-        results = paginator.get_page(paginator.num_pages)
+    if search_filter and search_filter.exists():
+        paginator = Paginator(search_filter, 1)
+        page_number = request.GET.get("page")
+        try:
+            results = paginator.get_page(page_number)
+        except PageNotAnInteger:
+            results = paginator.get_page(1)
+        except EmptyPage:
+            results = paginator.get_page(paginator.num_pages)
+    else:
+        results = None        
     return render(request, 'search_results.html', {'results': results, 'name': name}) 
 
 
